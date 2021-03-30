@@ -8,5 +8,13 @@
 </head>
 <body>
     <h1>This is only for APIs</h1>
+    <hr />
+    <form action="/api/products/add" method="POST" enctype="multipart/form-data">
+        <input type="text" name="name" placeholder="Product Name" /> <br />
+        <input type="text" name="weigth" placeholder="Product Weigth(g)" /> <br />
+        <input type="text" name="price" placeholder="Product Price" /> <br />
+        <input type="file" name="photo" placeholder="Upload Product Photo" /> <br />
+        <button type="submit">Add Product</button>
+    </form>
 </body>
 </html>

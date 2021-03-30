@@ -1,5 +1,7 @@
 /node_modules
+/uploads
 
 *.test.js
 .env
 .DS_Store
+.vscode

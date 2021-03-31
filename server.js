@@ -10,7 +10,7 @@ const app = express();
 
 // middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(['/api', '/file'], cors());    // CORS is enabled for API routes
 app.use(require('./routes'));   // routes
 app.use('/file/', express.static(path.resolve(__dirname, './uploads')))

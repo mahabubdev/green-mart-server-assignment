@@ -16,10 +16,20 @@ const Product = model('Product', productSchema);
 // orders
 const orderSchema = Schema({
     user: { type: String, required: true },
-    product: {
-        type: Types.ObjectId,
-        ref: 'Product'
+    products: [{
+        type: Object,
+        required: true
+    }],
+    cost: {
+        type: Number,
+        required: true
+    },
+    status: {
+        type: String,
+        default: 'processing'
     }
+}, {
+    timestamps: true
 });
 
 const Order = model('Order', orderSchema);

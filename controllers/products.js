@@ -22,14 +22,14 @@ route.get('/', async (req, res) => {
 route.post('/add', uploader,  async (req, res) => {
     // console.log("console ===> ", req.body);
 
-    let { name, price, weigth } = req.body;
+    let { name, price, weight } = req.body;
     price = parseFloat(price);
 
     let reqUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
     let baseDomain = reqUrl.replace(req.originalUrl, '');
 
     const newProduct = {
-        name, price, weigth,
+        name, price, weight,
         pid: myuid(),
         photo: `${baseDomain}/file/${req.file.filename}`
     };
@@ -38,7 +38,10 @@ route.post('/add', uploader,  async (req, res) => {
     .then(data => {
         res.status(201).json(data)
     })
-    .catch(err => res.status(400).json(err))
+    .catch(err => {
+        console.log(err)
+        res.status(400).json(err)
+    })
 });
 
 

@@ -13,7 +13,19 @@ const uploader = multer({ dest: 'uploads/' }).single('photo');
 
 // GET query all products
 route.get('/', async (req, res) => {
-    let products = await Product.find({});
+    let { search } = req.query;
+    let query = {};
+
+    if (search) {
+        query = {
+            name: {
+                $regex: search,
+                $options: '$i'
+            }
+        }
+    }
+
+    let products = await Product.find(query);
     res.json(products);
 });
 

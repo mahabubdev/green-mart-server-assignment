@@ -14,11 +14,7 @@ route.get('/', async (req, res) => {
         });
     }
 
-    let orders = await Order.find({
-        $where: {
-            'user': user
-        }
-    });
+    let orders = await Order.find({ user });
 
     res.json(orders);
 });

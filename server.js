@@ -25,5 +25,5 @@ mongoose.connection.once('open', () => console.log(`MongoDB is connected`));
 
 
 // http server
-const PORT = process.env.PORT || 3080;
+const PORT = process.env.PORT || 5500;
 app.listen(PORT, () => console.log(`Server is running at ${PORT}`));

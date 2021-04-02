@@ -24,29 +24,19 @@ route.get('/', async (req, res) => {
 // POST create orders
 route.post('/add', async (req, res) => {
     // console.log("body", req.body);
-    let { email, pid, cost } = req.body;
-    cost = parseFloat(cost);
+    let { email, cart, cost } = req.body;
+    cost = parseFloat(cost).toFixed(2);
 
-    if (!email || !pid || !cost) {
+    if (!email || !cart || !cost) {
         return res.status(400).json({
             message: 'Error! Please send us all info needed'
-        });
-    }
-    // console.log(email, pid);
-    const findProduct = await Product.findOne({ pid: pid });
-    if (! findProduct) {
-        return res.status(404).json({
-            message: 'Product not found'
         });
     }
     const newOrder = {
         user: email,   // user email only
         cost,
         products: [
-            {
-                ...findProduct,
-                qty: 1, // default for this assignment
-            }
+            ...cart
         ], // passing only the ID
     };
     const saveOrder = new Order(newOrder);

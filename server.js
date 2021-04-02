@@ -20,8 +20,9 @@ mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PA
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true
-});
-mongoose.connection.once('open', () => console.log(`MongoDB is connected`));
+})
+.then(() => console.log(`MongoDB is connected`))
+.catch(err => console.log(err))
 
 
 // http server

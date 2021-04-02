@@ -4,11 +4,22 @@ const multer = require('multer');
 const myuid = require('myuid');
 const fs = require('fs');
 const path = require('path');
+const cloudinary = require('cloudinary').v2;
 
 /**=================*
  * Multer setup
  *=================*/
 const uploader = multer({ dest: 'uploads/' }).single('photo');
+
+
+/**=================*
+ * Cloudinary setup
+ *=================*/
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 
 // GET query all products
@@ -37,13 +48,19 @@ route.post('/add', uploader,  async (req, res) => {
     let { name, price, weight } = req.body;
     price = parseFloat(price);
 
-    let reqUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-    let baseDomain = reqUrl.replace(req.originalUrl, '');
+    // uploading to cloudinary
+    const cloudUpload = await cloudinary.uploader.upload(req.file.path, {
+        folder: 'webdev3_assignment10'
+    });
+
+    // let reqUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+    // let baseDomain = reqUrl.replace(req.originalUrl, '');
 
     const newProduct = {
         name, price, weight,
         pid: myuid(),
-        photo: `${baseDomain}/file/${req.file.filename}`
+        photo: cloudUpload.secure_url,
+        cloud_id: cloudUpload.public_id
     };
     const product = new Product(newProduct);
     product.save()
@@ -63,14 +80,15 @@ route.delete('/del/:pid', async (req, res) => {
     if (fetchProduct) {
         // res.json(fetchProduct)
         await fetchProduct.delete()
-        .then((d) => {
-            let productPhoto = d._doc.photo;
-            let photoFile = productPhoto.split('/')[4];
-
-            fs.unlink(path.resolve(__dirname, '../uploads/' + photoFile), () => {
-                res.status(202).json({
-                    message: 'Product removed successfully!'
-                });
+        .then(async (d) => {
+            // console.log(d)
+            await cloudinary.uploader.destroy(fetchProduct.cloud_id)
+            res.status(202).json({
+                message: 'Product deleted successfully!',
+                data: {
+                    pid,
+                    name: fetchProduct.name,
+                }
             })
         })
         .catch(err => res.status(400).json({ message: err.message }))

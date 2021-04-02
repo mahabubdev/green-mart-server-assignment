@@ -5,6 +5,7 @@ const productSchema = Schema({
   name: { type: String, required: true },
   weight: { type: String, required: true },
   photo: { type: String, required: true },
+  cloud_id: {type: String, required: true},
   price: { type: Number, required: true },
   pid: { type: String, required: true }
 });

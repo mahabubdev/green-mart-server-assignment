@@ -22,6 +22,6 @@ Product server : start
 
 ## Features
 ```
-1. Products (create & delete & photo) APIs
+1. Products (create, read, delete & photo) APIs
 2. Orders (create & search/read--by-user@email) APIs
 ```

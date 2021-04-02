@@ -24,5 +24,6 @@ Product server : start
 ## Features
 ```
 1. Products (create, read, delete & photo {with cloudinary}) APIs
-2. Orders (create & search/read--by-user@email) APIs
+2. Orders (create & read --by-user@email) APIs
+3. Search API for products by name
 ```

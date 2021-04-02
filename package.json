@@ -14,7 +14,9 @@
     "myuid": "^1.2.2"
   },
   "engines": {
-    "node": "14.x"
+    "node": "14.x",
+    "npm": "7.7.5",
+    "yarn": "1.22.10"
   },
   "scripts": {
     "start:dev": "nodemon server.js",
